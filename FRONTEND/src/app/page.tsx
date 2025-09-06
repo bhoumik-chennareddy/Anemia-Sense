@@ -95,7 +95,8 @@ export default function HomePage() {
             
             <p className="text-gray-600 mb-6 leading-relaxed">
               A preliminary screening tool that analyzes the color of the inner eyelid (conjunctiva) 
-              using your device's camera to estimate anemia risk. No lab tests required - just your camera.
+              {/* FIX: Replaced ' with &apos; to avoid ESLint error */}
+              using your device&apos;s camera to estimate anemia risk. No lab tests required - just your camera.
             </p>
             
             <div className="space-y-3 mb-8">
