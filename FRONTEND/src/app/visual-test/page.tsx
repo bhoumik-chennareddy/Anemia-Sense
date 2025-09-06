@@ -39,6 +39,9 @@ export default function VisualScreening() {
       const formData = new FormData();
       formData.append('file', blob, 'conjunctiva.jpg');
 
+      // DEBUG: Print the exact URL we are about to call
+      console.log("Attempting to call API at:", process.env.NEXT_PUBLIC_VISUAL_API_URL);
+
       const response = await fetch(process.env.NEXT_PUBLIC_VISUAL_API_URL!, {
         method: 'POST',
         body: formData,
