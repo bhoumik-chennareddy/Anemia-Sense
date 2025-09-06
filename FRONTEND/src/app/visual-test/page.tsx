@@ -248,10 +248,10 @@ export default function VisualScreening() {
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-medium text-gray-600">Risk Level:</span>
                   <span className={`text-lg font-bold ${
-                    result.risk_label.toLowerCase().includes('high') ? 'text-red-600' : 
-                    result.risk_label.toLowerCase().includes('medium') ? 'text-yellow-600' : 'text-green-600'
+                    result?.risk_label?.toLowerCase().includes('high') ? 'text-red-600' : 
+                    result?.risk_label?.toLowerCase().includes('medium') ? 'text-yellow-600' : 'text-green-600'
                   }`}>
-                    {result.risk_label}
+                    {result?.risk_label ?? 'N/A'} {/* Display 'N/A' if label doesn't exist */}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
