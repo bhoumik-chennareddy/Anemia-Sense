@@ -1,101 +1,21 @@
-'use client';
+import Link from 'next/link';
 
-import { useState } from 'react';
-
-interface CBCFormData {
-  Gender: string;
-  Hemoglobin: number | '';
-  MCV: number | '';
-  MCH: number | '';
-  MCHC: number | '';
-}
-
-interface APIResponse {
-  label: string;
-  prediction_class: number;
-  confidence_scores: {
-    anemic_probability: number;
-    non_anemic_probability: number;
-  };
-}
-
-export default function AnemiaSenseCBCAnalyzer() {
-  const [formData, setFormData] = useState<CBCFormData>({
-    Gender: '',
-    Hemoglobin: '',
-    MCV: '',
-    MCH: '',
-    MCHC: '',
-  });
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<APIResponse | null>(null);
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: name === 'Gender' ? value : value === '' ? '' : parseFloat(value)
-    }));
-  };
-
-  const validateForm = (): boolean => {
-    return (
-      formData.Gender !== '' &&
-      formData.Hemoglobin !== '' &&
-      formData.MCV !== '' &&
-      formData.MCH !== '' &&
-      formData.MCHC !== ''
-    );
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!validateForm()) {
-      setError('Please fill in all fields');
-      return;
-    }
-
-    setIsLoading(true);
-    setError(null);
-    setResult(null);
-
-    try {
-      const response = await fetch('https://bhoumikanemiasense--anemia-cbc-predictor-anemiapredictor-cfaa11.modal.run', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          Gender: formData.Gender,
-          Hemoglobin: formData.Hemoglobin,
-          MCH: formData.MCH,
-          MCHC: formData.MCHC,
-          MCV: formData.MCV,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data: APIResponse = await response.json();
-      console.log('API Response:', data); // Debug log
-      setResult(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred while analyzing the data');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            AnemiaSense: Non-invasive Screening Tool
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Advanced AI-powered anemia detection using clinical data analysis and visual screening technology
+          </p>
+        </div>
+
         {/* Medical Disclaimer */}
-        <div className="mb-8 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg">
+        <div className="mb-12 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg max-w-3xl mx-auto">
           <div className="flex">
             <div className="flex-shrink-0">
               <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
@@ -110,183 +30,112 @@ export default function AnemiaSenseCBCAnalyzer() {
           </div>
         </div>
 
-        {/* Main Card */}
-        <div className="bg-white shadow-xl rounded-lg p-8">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">AnemiaSense CBC Analyzer</h1>
-            <p className="text-gray-600">Complete Blood Count Analysis Tool</p>
+        {/* Selection Cards */}
+        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {/* CBC Analysis Card */}
+          <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-8">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">Clinical Data Analysis</h2>
+            </div>
+            
+            <p className="text-gray-600 mb-6 leading-relaxed">
+              For users who have access to their Complete Blood Count (CBC) test results. 
+              Provides a high-accuracy analysis based on key hematological parameters including 
+              hemoglobin levels, MCV, MCH, and MCHC values.
+            </p>
+            
+            <div className="space-y-3 mb-8">
+              <div className="flex items-center text-sm text-gray-600">
+                <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                High accuracy with lab results
+              </div>
+              <div className="flex items-center text-sm text-gray-600">
+                <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                Instant results
+              </div>
+              <div className="flex items-center text-sm text-gray-600">
+                <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                Requires CBC test results
+              </div>
+            </div>
+            
+            <Link 
+              href="/cbc-test"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center"
+            >
+              Start CBC Analysis
+              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Gender */}
-            <div>
-              <label htmlFor="Gender" className="block text-sm font-medium text-gray-700 mb-2">
-                Gender
-              </label>
-              <select
-                id="Gender"
-                name="Gender"
-                value={formData.Gender}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
-                required
-              >
-                <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
+          {/* Visual Screening Card */}
+          <div className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 p-8">
+            <div className="text-center mb-6">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-3">Non-Invasive Camera Scan</h2>
             </div>
-
-            {/* Hemoglobin */}
-            <div>
-              <label htmlFor="Hemoglobin" className="block text-sm font-medium text-gray-700 mb-2">
-                Hemoglobin (Hgb) - g/dL
-              </label>
-              <input
-                type="number"
-                id="Hemoglobin"
-                name="Hemoglobin"
-                value={formData.Hemoglobin}
-                onChange={handleInputChange}
-                min="5.0"
-                max="20.0"
-                step="0.1"
-                placeholder="e.g., 12.5"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
-                required
-              />
-              <p className="text-xs text-gray-500 mt-1">Range: 5.0 - 20.0 g/dL</p>
+            
+            <p className="text-gray-600 mb-6 leading-relaxed">
+              A preliminary screening tool that analyzes the color of the inner eyelid (conjunctiva) 
+              using your device's camera to estimate anemia risk. No lab tests required - just your camera.
+            </p>
+            
+            <div className="space-y-3 mb-8">
+              <div className="flex items-center text-sm text-gray-600">
+                <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                No lab tests needed
+              </div>
+              <div className="flex items-center text-sm text-gray-600">
+                <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                Uses device camera
+              </div>
+              <div className="flex items-center text-sm text-gray-600">
+                <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                Preliminary screening
+              </div>
             </div>
-
-            {/* MCV */}
-            <div>
-              <label htmlFor="MCV" className="block text-sm font-medium text-gray-700 mb-2">
-                Mean Corpuscular Volume (MCV) - fL
-              </label>
-              <input
-                type="number"
-                id="MCV"
-                name="MCV"
-                value={formData.MCV}
-                onChange={handleInputChange}
-                min="60"
-                max="120"
-                step="0.1"
-                placeholder="e.g., 85.0"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
-                required
-              />
-              <p className="text-xs text-gray-500 mt-1">Range: 60 - 120 fL</p>
-            </div>
-
-            {/* MCH */}
-            <div>
-              <label htmlFor="MCH" className="block text-sm font-medium text-gray-700 mb-2">
-                Mean Corpuscular Hemoglobin (MCH) - pg
-              </label>
-              <input
-                type="number"
-                id="MCH"
-                name="MCH"
-                value={formData.MCH}
-                onChange={handleInputChange}
-                min="20"
-                max="40"
-                step="0.1"
-                placeholder="e.g., 28.0"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
-                required
-              />
-              <p className="text-xs text-gray-500 mt-1">Range: 20 - 40 pg</p>
-            </div>
-
-            {/* MCHC */}
-            <div>
-              <label htmlFor="MCHC" className="block text-sm font-medium text-gray-700 mb-2">
-                Mean Corpuscular Hemoglobin Concentration (MCHC) - g/dL
-              </label>
-              <input
-                type="number"
-                id="MCHC"
-                name="MCHC"
-                value={formData.MCHC}
-                onChange={handleInputChange}
-                min="30"
-                max="40"
-                step="0.1"
-                placeholder="e.g., 34.0"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
-                required
-              />
-              <p className="text-xs text-gray-500 mt-1">Range: 30 - 40 g/dL</p>
-            </div>
-
-            {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isLoading || !validateForm()}
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+            
+            <Link 
+              href="/visual-test"
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center"
             >
-              {isLoading ? (
-                <div className="flex items-center">
-                  <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                  </svg>
-                  Analyzing...
-                </div>
-              ) : (
-                'Analyze CBC Results'
-              )}
-            </button>
-          </form>
+              Start Camera Scan
+              <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
+          </div>
+        </div>
 
-          {/* Error Display */}
-          {error && (
-            <div className="mt-6 p-4 bg-red-50 border-l-4 border-red-400 rounded-r-lg">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                  </svg>
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm text-red-700 font-medium">Error: {error}</p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Results Display */}
-          {result && (
-            <div className="mt-8 p-6 bg-gray-50 rounded-lg border">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Analysis Results</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-gray-600">Prediction:</span>
-                  <span className={`text-lg font-bold ${
-                    result.label === 'Anemic' ? 'text-red-600' : 'text-green-600'
-                  }`}>
-                    {result.label}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-gray-600">Anemic Probability:</span>
-                  <span className="text-lg font-semibold text-gray-900">
-                    {(result.confidence_scores.anemic_probability * 100).toFixed(1)}%
-                  </span>
-                </div>
-              </div>
-              
-              {/* Additional context based on result */}
-              <div className="mt-4 p-3 bg-blue-50 rounded-md">
-                <p className="text-sm text-blue-800">
-                  <strong>Remember:</strong> These results are for screening purposes only. 
-                  Please consult with a healthcare professional for proper diagnosis and treatment.
-                </p>
-              </div>
-            </div>
-          )}
+        {/* Footer Info */}
+        <div className="text-center mt-12 text-gray-600">
+          <p className="text-sm">
+            Powered by advanced machine learning algorithms trained on clinical data
+          </p>
         </div>
       </div>
     </div>

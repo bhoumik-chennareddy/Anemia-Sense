@@ -1,6 +1,8 @@
 import base64
 
-files_to_encode = ["anemia_model.joblib", "model_feature_columns.joblib"]
+#files_to_encode = ["anemia_model.joblib", "model_feature_columns.joblib"]
+
+files_to_encode = ["anemia_visual_model.h5"]
 
 for filename in files_to_encode:
     try:

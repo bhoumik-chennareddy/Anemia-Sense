@@ -1,14 +1,21 @@
-# Node.js - Frontend dependencies
+# Node.js / Next.js dependencies and build artifacts
 frontend/node_modules/
 frontend/.next/
-frontend/out/
-frontend/.DS_Store
 
-# Python - Backend virtual environment
+# Python virtual environment and cache
 .venv/
 __pycache__/
-*.pyc
 
-# IDE and OS files
-.vscode/
+# Local environment variables
 *.env.local
+
+# Operating System files
+.DS_Store
+
+# Build output files (if you have them)
+/build/
+/dist/
+
+# Editor-specific files (like VS Code history)
+.vscode/
+*.history
