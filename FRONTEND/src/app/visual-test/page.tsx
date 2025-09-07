@@ -80,7 +80,7 @@ export default function VisualScreening() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
         {/* Back to Home */}
         <div className="mb-6">
@@ -112,30 +112,30 @@ export default function VisualScreening() {
         </div>
 
         {/* Main Card */}
-        <div className="bg-white shadow-xl rounded-lg p-8">
+        <div className="max-w-2xl mx-auto bg-gray-800 border border-gray-700 rounded-2xl shadow-xl p-8">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Visual Anemia Screening</h1>
-            <p className="text-gray-600">Camera-based conjunctiva analysis</p>
+            <h1 className="text-3xl font-bold text-white mb-6 text-center">Visual Anemia Screening</h1>
+            <p className="text-gray-300">Use your device camera to scan your inner eyelid</p>
           </div>
 
           {/* Instructions */}
-          <div className="mb-8 p-4 bg-blue-50 rounded-lg">
-            <h3 className="text-lg font-semibold text-blue-900 mb-3">Instructions:</h3>
-            <ul className="space-y-2 text-sm text-blue-800">
+          <div className="mb-6 p-4 bg-gray-700 border border-gray-600 rounded-lg">
+            <h3 className="text-lg font-semibold text-white mb-3">Instructions:</h3>
+            <ul className="space-y-2 text-sm text-gray-300">
               <li className="flex items-start">
-                <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                <span className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
                 Pull down your lower eyelid gently to expose the inner conjunctiva
               </li>
               <li className="flex items-start">
-                <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                <span className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
                 Look up while keeping the eyelid pulled down
               </li>
               <li className="flex items-start">
-                <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                <span className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
                 Ensure good lighting and center your eye in the frame
               </li>
               <li className="flex items-start">
-                <span className="w-2 h-2 bg-blue-600 rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                <span className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
                 {/* FIX #2: Replaced quotes with &quot; to avoid ESLint error */}
                 Hold steady and click &quot;Capture Image&quot; when ready
               </li>
@@ -174,6 +174,7 @@ export default function VisualScreening() {
                     }}
                     onUserMediaError={handleUserMediaError}
                   />
+                  {/* Overlay guide */}
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                     <div className="w-48 h-32 border-2 border-white border-dashed rounded-lg flex items-center justify-center">
                       <span className="text-white bg-black bg-opacity-50 px-2 py-1 rounded text-sm">
@@ -277,8 +278,8 @@ export default function VisualScreening() {
               </div>
               
               {/* Additional context based on result */}
-              <div className="mt-4 p-3 bg-blue-50 rounded-md">
-                <p className="text-sm text-blue-800">
+              <div className="mt-4 p-3 bg-gray-700 border border-gray-600 rounded-md">
+                <p className="text-sm text-gray-300">
                   <strong>Remember:</strong> This is a preliminary screening tool only. 
                   Please consult with a healthcare professional for proper diagnosis and treatment, 
                   especially if high risk is indicated.

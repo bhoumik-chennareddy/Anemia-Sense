@@ -93,7 +93,7 @@ export default function CBCAnalyzer() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-4">
       <div className="max-w-md mx-auto">
         {/* Back to Home */}
         <div className="mb-6">
@@ -109,7 +109,7 @@ export default function CBCAnalyzer() {
         </div>
 
         {/* Medical Disclaimer */}
-        <div className="mb-8 p-4 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg">
+        <div className="mb-8 p-4 bg-yellow-900 border-l-4 border-yellow-400 rounded-r-lg">
           <div className="flex">
             <div className="flex-shrink-0">
               <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
@@ -117,7 +117,8 @@ export default function CBCAnalyzer() {
               </svg>
             </div>
             <div className="ml-3">
-              <p className="text-sm text-yellow-700 font-medium">
+              <p className="text-red-200 text-sm">{error}</p>
+              <p className="text-sm text-yellow-200 font-medium">
                 <strong>Medical Disclaimer:</strong> This tool is for informational purposes only and not a substitute for professional medical advice. Consult a healthcare provider for diagnosis.
               </p>
             </div>
@@ -125,35 +126,55 @@ export default function CBCAnalyzer() {
         </div>
 
         {/* Main Card */}
-        <div className="bg-white shadow-xl rounded-lg p-8">
+        <div className="max-w-2xl mx-auto bg-gray-800 border border-gray-700 rounded-2xl shadow-xl p-8">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">CBC Analyzer</h1>
-            <p className="text-gray-600">Complete Blood Count Analysis Tool</p>
+            <h1 className="text-3xl font-bold text-white mb-6 text-center">CBC Analyzer</h1>
+            <p className="text-gray-300">Complete Blood Count Analysis Tool</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Gender */}
             <div>
-              <label htmlFor="Gender" className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-3">
                 Gender
               </label>
-              <select
-                id="Gender"
-                name="Gender"
-                value={formData.Gender}
-                onChange={handleInputChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
-                required
-              >
-                <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
+              <div className="flex space-x-6">
+                <div className="flex items-center">
+                  <input
+                    id="gender-male"
+                    name="Gender"
+                    type="radio"
+                    value="Male"
+                    checked={formData.Gender === 'Male'}
+                    onChange={handleInputChange}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-600 bg-gray-700"
+                    required
+                  />
+                  <label htmlFor="gender-male" className="ml-3 block text-sm font-medium text-gray-300">
+                    Male
+                  </label>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    id="gender-female"
+                    name="Gender"
+                    type="radio"
+                    value="Female"
+                    checked={formData.Gender === 'Female'}
+                    onChange={handleInputChange}
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-600 bg-gray-700"
+                    required
+                  />
+                  <label htmlFor="gender-female" className="ml-3 block text-sm font-medium text-gray-300">
+                    Female
+                  </label>
+                </div>
+              </div>
             </div>
 
             {/* Hemoglobin */}
             <div>
-              <label htmlFor="Hemoglobin" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="Hemoglobin" className="block text-sm font-medium text-gray-300 mb-2">
                 Hemoglobin (Hgb) - g/dL
               </label>
               <input
@@ -166,15 +187,15 @@ export default function CBCAnalyzer() {
                 max="20.0"
                 step="0.1"
                 placeholder="e.g., 12.5"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 required
               />
-              <p className="text-xs text-gray-500 mt-1">Range: 5.0 - 20.0 g/dL</p>
+              <p className="text-xs text-gray-400 mt-1">Range: 5.0 - 20.0 g/dL</p>
             </div>
 
             {/* MCV */}
             <div>
-              <label htmlFor="MCV" className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Mean Corpuscular Volume (MCV) - fL
               </label>
               <input
@@ -187,15 +208,15 @@ export default function CBCAnalyzer() {
                 max="120"
                 step="0.1"
                 placeholder="e.g., 85.0"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 required
               />
-              <p className="text-xs text-gray-500 mt-1">Range: 60 - 120 fL</p>
+              <p className="text-xs text-gray-400 mt-1">Range: 60 - 120 fL</p>
             </div>
 
             {/* MCH */}
             <div>
-              <label htmlFor="MCH" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="MCH" className="block text-sm font-medium text-gray-300 mb-2">
                 Mean Corpuscular Hemoglobin (MCH) - pg
               </label>
               <input
@@ -208,15 +229,15 @@ export default function CBCAnalyzer() {
                 max="40"
                 step="0.1"
                 placeholder="e.g., 28.0"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 required
               />
-              <p className="text-xs text-gray-500 mt-1">Range: 20 - 40 pg</p>
+              <p className="text-xs text-gray-400 mt-1">Range: 20 - 40 pg</p>
             </div>
 
             {/* MCHC */}
             <div>
-              <label htmlFor="MCHC" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="MCHC" className="block text-sm font-medium text-gray-300 mb-2">
                 Mean Corpuscular Hemoglobin Concentration (MCHC) - g/dL
               </label>
               <input
@@ -229,10 +250,10 @@ export default function CBCAnalyzer() {
                 max="40"
                 step="0.1"
                 placeholder="e.g., 34.0"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                className="w-full px-3 py-2 bg-gray-700 border border-gray-600 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 required
               />
-              <p className="text-xs text-gray-500 mt-1">Range: 30 - 40 g/dL</p>
+              <p className="text-xs text-gray-400 mt-1">Range: 30 - 40 g/dL</p>
             </div>
 
             {/* Submit Button */}
@@ -257,7 +278,7 @@ export default function CBCAnalyzer() {
 
           {/* Error Display */}
           {error && (
-            <div className="mt-6 p-4 bg-red-50 border-l-4 border-red-400 rounded-r-lg">
+            <div className="bg-red-900 border border-red-700 rounded-md p-4">
               <div className="flex">
                 <div className="flex-shrink-0">
                   <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
@@ -265,7 +286,7 @@ export default function CBCAnalyzer() {
                   </svg>
                 </div>
                 <div className="ml-3">
-                  <p className="text-sm text-red-700 font-medium">Error: {error}</p>
+                  <p className="text-sm text-red-200 font-medium">{error}</p>
                 </div>
               </div>
             </div>
@@ -273,11 +294,11 @@ export default function CBCAnalyzer() {
 
           {/* Results Display */}
           {result && (
-            <div className="mt-8 p-6 bg-gray-50 rounded-lg border">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Analysis Results</h3>
+            <div className="mt-8 p-6 bg-gray-700 rounded-lg border border-gray-600">
+              <h3 className="text-lg font-semibold text-white mb-4">Analysis Results</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-gray-600">Prediction:</span>
+                  <span className="text-sm font-medium text-gray-300">Prediction:</span>
                   <span className={`text-lg font-bold ${
                     result.label === 'Anemic' ? 'text-red-600' : 'text-green-600'
                   }`}>
@@ -285,19 +306,47 @@ export default function CBCAnalyzer() {
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-gray-600">Anemic Probability:</span>
-                  <span className="text-lg font-semibold text-gray-900">
+                  <span className="text-sm font-medium text-gray-300">Anemic Probability:</span>
+                  <span className="text-lg font-semibold text-white">
                     {(result.confidence_scores.anemic_probability * 100).toFixed(1)}%
                   </span>
                 </div>
               </div>
               
               {/* Additional context based on result */}
-              <div className="mt-4 p-3 bg-blue-50 rounded-md">
-                <p className="text-sm text-blue-800">
+              <div className="mb-6 p-4 bg-blue-900 rounded-lg">
+                <p className="text-sm text-blue-200">
                   <strong>Remember:</strong> These results are for screening purposes only. 
                   Please consult with a healthcare professional for proper diagnosis and treatment.
                 </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="mt-6 flex gap-4 justify-center">
+                <button
+                  onClick={() => {
+                    setResult(null);
+                    setFormData({
+                      Gender: '',
+                      Hemoglobin: '',
+                      MCV: '',
+                      MCH: '',
+                      MCHC: ''
+                    });
+                  }}
+                  className="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200"
+                >
+                  Test Again
+                </button>
+                <Link 
+                  href="/visual-test"
+                  className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 flex items-center"
+                >
+                  Try Visual Screening
+                  <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </Link>
               </div>
             </div>
           )}
