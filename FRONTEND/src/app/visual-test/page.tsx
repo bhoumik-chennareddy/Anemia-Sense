@@ -10,6 +10,7 @@ import Webcam from 'react-webcam';
 interface VisualAPIResponse {
   risk_label: string;
   confidence_score: number;
+  error?: string;
 }
 
 export default function VisualScreening() {
@@ -52,6 +53,13 @@ export default function VisualScreening() {
       }
 
       const data: VisualAPIResponse = await response.json();
+      console.log('Visual API Response:', data);
+      
+      // Check if the response contains an error
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      
       setResult(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred while analyzing the image');
@@ -260,7 +268,10 @@ export default function VisualScreening() {
                 <div className="flex justify-between items-center">
                   <span className="text-sm font-medium text-gray-600">Confidence Score:</span>
                   <span className="text-lg font-semibold text-gray-900">
-                    {(result.confidence_score * 100).toFixed(1)}%
+                    {result.confidence_score && !isNaN(result.confidence_score) 
+                      ? (result.confidence_score * 100).toFixed(1) + '%'
+                      : 'N/A'
+                    }
                   </span>
                 </div>
               </div>
