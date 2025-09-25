@@ -6,7 +6,8 @@ import joblib
 import io
 import numpy as np
 from PIL import Image 
-from fastapi import File, UploadFile 
+from fastapi import File, UploadFile, FastAPI
+from fastapi.middleware.cors import CORSMiddleware 
 
 # --- Configuration ---
 app = modal.App(name="anemia-cbc-predictor")
@@ -108,3 +109,12 @@ class AnemiaPredictor:
             }
         except Exception as e:
             return {"error": str(e)}
+
+
+@app.function()
+@modal.asgi_app()
+def fastapi_app():
+    """This function serves the FastAPI app.
+    It's the entry point for all web requests.
+    """
+    return web_app
