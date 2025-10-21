@@ -12,6 +12,11 @@ const nextConfig: NextConfig = {
   // React configuration
   reactStrictMode: true,
   
+  // Enable CSS modules
+  sassOptions: {
+    includePaths: ['./src'],
+  },
+  
   // Webpack configuration
   webpack: (config, { isServer }) => {
     // Fixes npm packages that depend on `node:` protocol
@@ -25,7 +30,27 @@ const nextConfig: NextConfig = {
       dgram: false,
     };
 
+    // Handle CSS loading in production
+    if (!isServer) {
+      config.module.rules.push({
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'postcss-loader'
+        ]
+      });
+    }
+
     return config;
+  },
+  
+  // Output configuration
+  output: 'standalone',
+  
+  // Images configuration
+  images: {
+    domains: ['localhost'],
   },
   
   // Experimental features
