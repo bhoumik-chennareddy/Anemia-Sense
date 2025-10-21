@@ -1,9 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Basic configuration
-  reactStrictMode: true,
-  
   // Error handling
   eslint: {
     ignoreDuringBuilds: true,
@@ -12,11 +9,8 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   
-  // Output configuration
-  output: 'standalone',
-  
-  // Server components external packages
-  serverExternalPackages: ['@supabase/supabase-js'],
+  // React configuration
+  reactStrictMode: true,
   
   // Webpack configuration
   webpack: (config, { isServer }) => {
@@ -31,26 +25,10 @@ const nextConfig: NextConfig = {
       dgram: false,
     };
 
-    // Exclude certain Node.js built-in modules from client-side bundles
-    if (!isServer) {
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        'node-fetch': false,
-        'encoding': false,
-        'http': false,
-        'https': false,
-        'stream': false,
-        'crypto': false,
-        'zlib': false,
-        'bufferutil': false,
-        'utf-8-validate': false,
-      };
-    }
-
     return config;
   },
   
-  // Disable telemetry
+  // Experimental features
   experimental: {
     serverActions: {
       bodySizeLimit: '2mb',

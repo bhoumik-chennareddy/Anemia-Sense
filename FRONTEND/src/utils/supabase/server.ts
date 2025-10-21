@@ -1,7 +1,7 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
-export async function createClient() {
+export function createClient() {
   const cookieStore = cookies()
 
   return createServerClient(
@@ -34,11 +34,11 @@ export async function createClient() {
 }
 
 export async function getSession() {
-  const supabase = await createClient()
-  return supabase.auth.getSession()
+  const supabase = createClient()
+  return await supabase.auth.getSession()
 }
 
 export async function getUser() {
-  const supabase = await createClient()
-  return supabase.auth.getUser()
+  const supabase = createClient()
+  return await supabase.auth.getUser()
 }
