@@ -1,23 +1,21 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Basic configuration
+  reactStrictMode: true,
+  
+  // Error handling
   eslint: {
     ignoreDuringBuilds: true,
   },
   typescript: {
     ignoreBuildErrors: true,
   },
-  reactStrictMode: true,
   
-  // Experimental features configuration
-  experimental: {
-    serverComponentsExternalPackages: ['@supabase/supabase-js'],
-    serverActions: {
-      bodySizeLimit: '2mb',
-    },
-  },
-
-  // Configure webpack to handle the Supabase client-side only modules
+  // Output configuration
+  output: 'standalone',
+  
+  // Webpack configuration
   webpack: (config, { isServer }) => {
     // Fixes npm packages that depend on `node:` protocol
     config.resolve.fallback = {
@@ -49,8 +47,10 @@ const nextConfig: NextConfig = {
     return config;
   },
   
-  // Use standalone output for better compatibility
-  output: 'standalone',
+  // Disable server components external packages check
+  experimental: {
+    serverComponentsExternalPackages: ['@supabase/supabase-js']
+  },
 };
 
 export default nextConfig;
