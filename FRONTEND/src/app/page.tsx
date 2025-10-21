@@ -1,8 +1,13 @@
 import Link from 'next/link';
+import AuthButton from '@/components/AuthButton';
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 w-full">
+      <nav className="w-full flex justify-end p-4">
+        <AuthButton />
+      </nav>
+      <div className="flex items-center justify-center p-4">
       <div className="max-w-4xl mx-auto text-center">
         {/* Header */}
         <div className="text-center mt-12">
@@ -138,6 +143,7 @@ export default function HomePage() {
           </p>
         </div>
       </div>
+    </div>
     </div>
   );
 }

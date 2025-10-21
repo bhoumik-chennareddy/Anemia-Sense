@@ -2,6 +2,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { saveResult } from '../actions';
+import { createClient } from '@/utils/supabase/client';
 
 interface CBCFormData {
   Gender: string;
@@ -85,6 +87,17 @@ export default function CBCAnalyzer() {
       const data: APIResponse = await response.json();
       console.log('API Response:', data);
       setResult(data);
+
+      // If a user is logged in, save the result to the database
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        await saveResult({
+          test_type: 'cbc',
+          input_data: JSON.stringify(formData),
+          result: data.label,
+        });
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred while analyzing the data');
     } finally {

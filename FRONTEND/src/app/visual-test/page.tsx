@@ -4,8 +4,10 @@
 
 import { useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
-import Image from 'next/image'; // FIX #1: Import Next.js Image component
+import Image from 'next/image';
 import Webcam from 'react-webcam';
+import { saveResult } from '../actions';
+import { createClient } from '@/utils/supabase/client';
 
 interface VisualAPIResponse {
   risk_label: string;
@@ -61,6 +63,17 @@ export default function VisualScreening() {
       }
       
       setResult(data);
+
+      // If a user is logged in, save the result to the database
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        await saveResult({
+          test_type: 'visual',
+          input_data: 'Image Capture',
+          result: data.risk_label,
+        });
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred while analyzing the image');
     } finally {
