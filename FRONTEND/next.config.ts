@@ -15,6 +15,9 @@ const nextConfig: NextConfig = {
   // Output configuration
   output: 'standalone',
   
+  // Server components external packages
+  serverExternalPackages: ['@supabase/supabase-js'],
+  
   // Webpack configuration
   webpack: (config, { isServer }) => {
     // Fixes npm packages that depend on `node:` protocol
@@ -47,9 +50,11 @@ const nextConfig: NextConfig = {
     return config;
   },
   
-  // Disable server components external packages check
+  // Disable telemetry
   experimental: {
-    serverComponentsExternalPackages: ['@supabase/supabase-js']
+    serverActions: {
+      bodySizeLimit: '2mb',
+    },
   },
 };
 

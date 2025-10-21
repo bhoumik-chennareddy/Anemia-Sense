@@ -1,11 +1,8 @@
-import "server-only"
-import { createServerClient, type CookieOptions } from "@supabase/ssr"
-import { cookies } from "next/headers"
+import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import { cookies } from 'next/headers'
 
-// Mark the function as ASYNC
 export async function createClient() {
-  // AWAIT the cookies() function call
-  const cookieStore = await cookies()
+  const cookieStore = cookies()
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -19,17 +16,29 @@ export async function createClient() {
           try {
             cookieStore.set({ name, value, ...options })
           } catch (error) {
-            // This can be ignored
+            // The `set` method was called from a Server Component.
+            // This can be safely ignored.
           }
         },
         remove(name: string, options: CookieOptions) {
           try {
             cookieStore.set({ name, value: '', ...options })
           } catch (error) {
-            // This can be ignored
+            // The `delete` method was called from a Server Component.
+            // This can be safely ignored.
           }
         },
       },
     }
   )
+}
+
+export async function getSession() {
+  const supabase = await createClient()
+  return supabase.auth.getSession()
+}
+
+export async function getUser() {
+  const supabase = await createClient()
+  return supabase.auth.getUser()
 }
